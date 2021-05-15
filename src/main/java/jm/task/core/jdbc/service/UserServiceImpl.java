@@ -65,8 +65,10 @@ public class UserServiceImpl implements UserService {
     }
 
     public void removeUserById(long id) {
-        try( Connection connection = DriverManager.getConnection(URL, USER, PASSWORD); Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DELETE FROM user WHERE id ="+ id + " ; ");
+        String sql = "DELETE FROM user WHERE id= ?";
+        try( Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
             System.err.println("Пользователь под номером "+ id + " удалён");
         } catch (SQLException throwables) {
             throwables.printStackTrace();

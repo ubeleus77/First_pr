@@ -13,8 +13,9 @@ public class Main extends UserServiceImpl {
        user.saveUser("Иван", "Пушкин",(byte)34);
        user.saveUser("Николай", "Мишлен",(byte)56);
        System.out.println(user.getAllUsers());
-      user.cleanUsersTable();
-      user.dropUsersTable();
+
+       user.cleanUsersTable();
+       user.dropUsersTable();
 
 
 
