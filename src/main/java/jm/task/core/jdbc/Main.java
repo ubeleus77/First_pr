@@ -1,11 +1,6 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserServiceImpl;
-
-import javax.xml.bind.SchemaOutputResolver;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Main extends UserServiceImpl {
@@ -18,8 +13,8 @@ public class Main extends UserServiceImpl {
        user.saveUser("Иван", "Пушкин",(byte)34);
        user.saveUser("Николай", "Мишлен",(byte)56);
        System.out.println(user.getAllUsers());
-       user.cleanUsersTable();
-       user.dropUsersTable();
+      user.cleanUsersTable();
+      user.dropUsersTable();
 
 
 

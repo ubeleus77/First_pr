@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void createUsersTable() {
+
         try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD); Statement st = connection.createStatement()){
 
           st.executeUpdate("create table user\n" +
@@ -37,8 +38,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public void dropUsersTable() {
-        try( Connection connection = DriverManager.getConnection(URL, USER, PASSWORD); Statement statement = connection.createStatement()) {
-            statement.executeUpdate("DROP TABLE user;");
+        String sql =  "DROP TABLE user;";
+        try( Connection connection = DriverManager.getConnection(URL, USER, PASSWORD); PreparedStatement statement = connection.prepareStatement(sql) ) {
+            statement.executeUpdate();
             System.err.println("Таблица удалена");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -46,9 +48,16 @@ public class UserServiceImpl implements UserService {
     }
 
     public void saveUser(String name, String lastName, byte age) {
+        String sql = "INSERT INTO user (name, lastname, age) VALUES (?,?,?)";
+        try( Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 
-        try( Connection connection = DriverManager.getConnection(URL, USER, PASSWORD); Statement statement = connection.createStatement()) {
-            statement.execute("INSERT INTO user(name, lastname, age) VALUES ( ' "  +  name + " ' " +" , " + " ' " + lastName + " ' " + " , " +" ' "+ age + " ' " +" )");
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setInt(3, age);
+            preparedStatement.executeUpdate();
+
+
+
             System.out.println("Юзер с именем - " + name +" " +  lastName + " добавлен в базу данных");
         } catch (SQLException throwables) {
             System.err.println("  Такой юзер уже существует " + throwables);

@@ -20,9 +20,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "Имя : " + name  +
-                "Фамилия :  " + lastName  +
-                "Возраст :  " + age;
+        return "[Имя] : " + name  +
+                " [Фамилия]:  " + lastName  +
+                " [Возраст] :  " + age;
     }
 
     public User() {
