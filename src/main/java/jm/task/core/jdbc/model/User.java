@@ -18,6 +18,13 @@ public class User {
     @Column
     private Byte age;
 
+    @Override
+    public String toString() {
+        return "Имя : " + name  +
+                "Фамилия :  " + lastName  +
+                "Возраст :  " + age;
+    }
+
     public User() {
 
     }
