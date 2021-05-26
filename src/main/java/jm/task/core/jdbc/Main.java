@@ -6,7 +6,7 @@ import jm.task.core.jdbc.service.UserServiceImpl;
 
 public class Main extends UserServiceImpl {
     public static void main(String[] args) {
-        UserDaoHibernateImpl user = new UserDaoHibernateImpl();
+        Main user = new Main();
 
        user.createUsersTable();
        user.saveUser("Оскольд", "Запашный",(byte)69);
