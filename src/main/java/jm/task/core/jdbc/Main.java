@@ -1,11 +1,12 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.service.UserServiceImpl;
+import jm.task.core.jdbc.dao.UserDao;
+import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 
 
-public class Main extends UserServiceImpl {
+public class Main  {
     public static void main(String[] args) {
-       Main user = new Main();
+       UserDao user = new UserDaoJDBCImpl();
 
        user.createUsersTable();
        user.saveUser("Оскольд", "Запашный",(byte)69);
