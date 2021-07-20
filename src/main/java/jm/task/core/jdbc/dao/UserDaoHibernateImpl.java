@@ -13,6 +13,12 @@ public class UserDaoHibernateImpl implements UserDao {
     public UserDaoHibernateImpl() {
 
     }
+    
+    Session session = null;
+    {
+         session = Util.getSessionFactory().openSession();
+    }
+    
 
 
     @Override
@@ -27,7 +33,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 "\t\tprimary key (id)\n" +
                 ");\n";
         Transaction transaction = null;
-        try (Session session = Util.getSessionFactory().openSession()) {
+        try  {
             transaction = session.beginTransaction();
            session.createSQLQuery(sql).executeUpdate();
             transaction.commit();
@@ -42,7 +48,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         String sql = "DROP TABLE IF EXISTS user";
         Transaction transaction = null;
-        try(Session session = Util.getSessionFactory().openSession()){
+        try{
             transaction = session.beginTransaction();
            session.createSQLQuery(sql).executeUpdate();
            transaction.commit();
@@ -57,7 +63,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         Transaction transaction = null;
 
-        try(Session session = Util.getSessionFactory().openSession())  {
+        try {
 
             transaction = session.beginTransaction();
             session.save(new User(name,lastName,age));
@@ -73,7 +79,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void removeUserById(long id) {
         Transaction transaction  = null;
         String sql = "DELETE FROM User WHERE id = :id1";
-        try(Session session = Util.getSessionFactory().openSession()){
+        try{
            transaction = session.beginTransaction();
             Query query = session.createQuery(sql);
             query.setParameter("id1", id);
@@ -91,7 +97,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         List<User> users = null;
         String sql = "From " + User.class.getSimpleName();
-        try(Session session = Util.getSessionFactory().openSession()) {
+        try {
             transaction = session.beginTransaction();
              users = session.createQuery(sql).list();
             for (Iterator<User> it = users.iterator(); it.hasNext(); ) {
@@ -111,7 +117,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         String sql = "DELETE FROM User";
         Transaction transaction = null;
-        try(Session session = Util.getSessionFactory().openSession()){
+        try{
             transaction = session.beginTransaction();
             Query query = session.createQuery(sql);
             query.executeUpdate();
