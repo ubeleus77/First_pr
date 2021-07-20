@@ -14,14 +14,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
     
-    Session session = null;
-    {
-         session = Util.getSessionFactory().openSession();
-    }
-    
-
-
-    @Override
+      @Override
     public void createUsersTable() {
         String sql = "create table if not exists  user\n" +
                 "(\n" +
@@ -33,7 +26,7 @@ public class UserDaoHibernateImpl implements UserDao {
                 "\t\tprimary key (id)\n" +
                 ");\n";
         Transaction transaction = null;
-        try  {
+        try (Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
            session.createSQLQuery(sql).executeUpdate();
             transaction.commit();
@@ -48,7 +41,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         String sql = "DROP TABLE IF EXISTS user";
         Transaction transaction = null;
-        try{
+        try(Session session = Util.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
            session.createSQLQuery(sql).executeUpdate();
            transaction.commit();
@@ -56,8 +49,6 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction != null){
                 transaction.rollback();
             }
-        }finally {
-            session.close();
         }
     }
 
@@ -65,7 +56,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         Transaction transaction = null;
 
-        try {
+        try(Session session = Util.getSessionFactory().openSession())  {
 
             transaction = session.beginTransaction();
             session.save(new User(name,lastName,age));
@@ -74,8 +65,6 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-        }finally {
-            session.close();
         }
     }
 
@@ -83,7 +72,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void removeUserById(long id) {
         Transaction transaction  = null;
         String sql = "DELETE FROM User WHERE id = :id1";
-        try{
+        try(Session session = Util.getSessionFactory().openSession()){
            transaction = session.beginTransaction();
             Query query = session.createQuery(sql);
             query.setParameter("id1", id);
@@ -93,8 +82,6 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction !=null){
                 transaction.rollback();
             }
-        }finally {
-            session.close();
         }
     }
 
@@ -103,7 +90,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         List<User> users = null;
         String sql = "From " + User.class.getSimpleName();
-        try {
+        try(Session session = Util.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
              users = session.createQuery(sql).list();
             for (Iterator<User> it = users.iterator(); it.hasNext(); ) {
@@ -115,8 +102,6 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction != null){
                 transaction.rollback();
             }
-        }finally {
-            session.close();
         }
         return users;
     }
@@ -125,7 +110,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void cleanUsersTable() {
         String sql = "DELETE FROM User";
         Transaction transaction = null;
-        try{
+        try(Session session = Util.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
             Query query = session.createQuery(sql);
             query.executeUpdate();
@@ -134,8 +119,6 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction != null){
                 transaction.rollback();
             }
-        }finally {
-            session.close();
         }
     }
 }
