@@ -56,6 +56,8 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction != null){
                 transaction.rollback();
             }
+        }finally {
+            session.close();
         }
     }
 
@@ -72,6 +74,8 @@ public class UserDaoHibernateImpl implements UserDao {
             if (transaction != null) {
                 transaction.rollback();
             }
+        }finally {
+            session.close();
         }
     }
 
@@ -89,6 +93,8 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction !=null){
                 transaction.rollback();
             }
+        }finally {
+            session.close();
         }
     }
 
@@ -109,6 +115,8 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction != null){
                 transaction.rollback();
             }
+        }finally {
+            session.close();
         }
         return users;
     }
@@ -126,6 +134,8 @@ public class UserDaoHibernateImpl implements UserDao {
             if(transaction != null){
                 transaction.rollback();
             }
+        }finally {
+            session.close();
         }
     }
 }
